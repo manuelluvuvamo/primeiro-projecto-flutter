@@ -83,7 +83,10 @@ class _TaskState extends State<Task> {
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              nivel++;
+                              if (widget.dificuldade > 0 &&
+                                  (nivel / widget.dificuldade) / 10 < 1) {
+                                nivel++;
+                              }
                             });
                           },
                           style: ButtonStyle(

@@ -7,6 +7,8 @@ class TaskInherited extends InheritedWidget {
     required super.child,
   });
 
+  int globalLevel = 0;
+
   final List<Task> taskList = [
     Task('Aprender Flutter', 'assets/images/1.png', 3),
     Task('Andar de Bike', 'assets/images/2.webp', 2),
@@ -14,6 +16,10 @@ class TaskInherited extends InheritedWidget {
     Task('Ler', 'assets/images/4.jpg', 4),
     Task('Jogar', 'assets/images/5.avif', 1),
   ];
+
+  void updateGlobalLevel() {
+    globalLevel = taskList.fold(0, (sum, task) => sum + task.nivel);
+  }
 
   void newTask(String name, String image, int difficulty) {
     taskList.add(Task(name, image, difficulty));

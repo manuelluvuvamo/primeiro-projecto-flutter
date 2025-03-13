@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:primeiro_projecto_flutter/components/difficulty.dart';
+import 'package:primeiro_projecto_flutter/data/task_inherited.dart';
 
 class Task extends StatefulWidget {
   final String nome;
   final String foto;
   final int dificuldade;
-  const Task(this.nome, this.foto, this.dificuldade, {super.key});
+  Task(this.nome, this.foto, this.dificuldade, {super.key});
+  int nivel = 0;
+
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+
+  bool assetOrNetwork() {
+    return !widget.foto.contains('http');
+  }
+
+    void levelUp(BuildContext context) {
+      widget.nivel++;
+      TaskInherited.of(context).updateGlobalLevel();
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +36,13 @@ class _TaskState extends State<Task> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: widget.dificuldade > 0
-                    ? ((nivel / widget.dificuldade) / 10 >= 1)
+                    ? ((widget.nivel / widget.dificuldade) / 10 >= 1)
                         ? Colors.green
-                        : ((nivel / widget.dificuldade) / 10 > 0.75)
+                        : ((widget.nivel / widget.dificuldade) / 10 > 0.75)
                             ? Colors.lightGreen
-                            : ((nivel / widget.dificuldade) / 10 > 0.5)
+                            : ((widget.nivel / widget.dificuldade) / 10 > 0.5)
                                 ? Colors.greenAccent
-                                : ((nivel / widget.dificuldade) / 10 > 0.25)
+                                : ((widget.nivel / widget.dificuldade) / 10 > 0.25)
                                     ? Colors.teal
                                     : Colors.blue
                     : Colors.green,
@@ -57,7 +68,10 @@ class _TaskState extends State<Task> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
-                            child: Image.asset(
+                            child: assetOrNetwork() ? Image.asset(
+                              widget.foto,
+                              fit: BoxFit.cover,
+                            ) : Image.network(
                               widget.foto,
                               fit: BoxFit.cover,
                             ),
@@ -84,8 +98,8 @@ class _TaskState extends State<Task> {
                           onPressed: () {
                             setState(() {
                               if (widget.dificuldade > 0 &&
-                                  (nivel / widget.dificuldade) / 10 < 1) {
-                                nivel++;
+                                  (widget.nivel / widget.dificuldade) / 10 < 1) {
+                                levelUp(context);
                               }
                             });
                           },
@@ -122,13 +136,13 @@ class _TaskState extends State<Task> {
                             child: LinearProgressIndicator(
                               color: Colors.white,
                               value: (widget.dificuldade > 0)
-                                  ? (nivel / widget.dificuldade) / 10
+                                  ? (widget.nivel / widget.dificuldade) / 10
                                   : 1,
                             ))),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Nivel: $nivel',
+                          'Nivel: ${widget.nivel}',
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ))
                   ],

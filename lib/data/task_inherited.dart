@@ -2,28 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:primeiro_projecto_flutter/components/task.dart';
 
 class TaskInherited extends InheritedWidget {
+
+  final int globalLevel;
+  final List<Task> taskList;
+  final Function updateGlobalLevel;
+  final Function(String, String, int) newTask;
+
   TaskInherited({
     super.key,
     required super.child,
+    required this.globalLevel,
+    required this.taskList,
+    required this.updateGlobalLevel,
+    required this.newTask,
   });
-
-  int globalLevel = 0;
-
-  final List<Task> taskList = [
-    Task('Aprender Flutter', 'assets/images/1.png', 3),
-    Task('Andar de Bike', 'assets/images/2.webp', 2),
-    Task('Meditar', 'assets/images/3.jpeg', 5),
-    Task('Ler', 'assets/images/4.jpg', 4),
-    Task('Jogar', 'assets/images/5.avif', 1),
-  ];
-
-  void updateGlobalLevel() {
-    globalLevel = taskList.fold(0, (sum, task) => sum + task.nivel);
-  }
-
-  void newTask(String name, String image, int difficulty) {
-    taskList.add(Task(name, image, difficulty));
-  }
 
   static TaskInherited of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<TaskInherited>()!;
@@ -31,6 +23,7 @@ class TaskInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(TaskInherited oldWidget) {
-    return oldWidget.taskList.length != taskList.length;
+    print('updateShouldNotify');
+    return oldWidget.taskList.length != taskList.length || oldWidget.globalLevel != globalLevel;
   }
 }

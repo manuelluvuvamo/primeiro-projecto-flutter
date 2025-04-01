@@ -9,21 +9,19 @@ class Task extends StatefulWidget {
   Task(this.nome, this.foto, this.dificuldade, {super.key});
   int nivel = 0;
 
-
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-
   bool assetOrNetwork() {
     return !widget.foto.contains('http');
   }
 
-    void levelUp(BuildContext context) {
-      widget.nivel++;
-      TaskInherited.of(context).updateGlobalLevel();
-    }
+  void levelUp(BuildContext context) {
+    widget.nivel++;
+    TaskInherited.of(context).updateGlobalLevel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,8 @@ class _TaskState extends State<Task> {
                             ? Colors.lightGreen
                             : ((widget.nivel / widget.dificuldade) / 10 > 0.5)
                                 ? Colors.greenAccent
-                                : ((widget.nivel / widget.dificuldade) / 10 > 0.25)
+                                : ((widget.nivel / widget.dificuldade) / 10 >
+                                        0.25)
                                     ? Colors.teal
                                     : Colors.blue
                     : Colors.green,
@@ -68,13 +67,15 @@ class _TaskState extends State<Task> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
-                            child: assetOrNetwork() ? Image.asset(
-                              widget.foto,
-                              fit: BoxFit.cover,
-                            ) : Image.network(
-                              widget.foto,
-                              fit: BoxFit.cover,
-                            ),
+                            child: assetOrNetwork()
+                                ? Image.asset(
+                                    widget.foto,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(
+                                    widget.foto,
+                                    fit: BoxFit.cover,
+                                  ),
                           )),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +99,8 @@ class _TaskState extends State<Task> {
                           onPressed: () {
                             setState(() {
                               if (widget.dificuldade > 0 &&
-                                  (widget.nivel / widget.dificuldade) / 10 < 1) {
+                                  (widget.nivel / widget.dificuldade) / 10 <
+                                      1) {
                                 levelUp(context);
                               }
                             });

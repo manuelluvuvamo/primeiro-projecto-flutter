@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:primeiro_projecto_flutter/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
-
   final BuildContext taskContext;
   const FormScreen({required this.taskContext, super.key});
 
@@ -24,8 +23,8 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   bool difficultyValidator(String? value) {
-    if(value != null && value.isEmpty) {
-      if(int.parse(value) > 5 || int.parse(value) < 1) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
         return true;
       }
     }

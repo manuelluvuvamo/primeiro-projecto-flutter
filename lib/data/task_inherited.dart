@@ -23,7 +23,6 @@ class TaskInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(TaskInherited oldWidget) {
-    print('updateShouldNotify');
     return oldWidget.taskList.length != taskList.length || oldWidget.globalLevel != globalLevel;
   }
 }
